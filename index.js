@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
     let interval = setInterval(() => {
         console.log(`sending another chunk`);
-        res.write(`${chunk} generated at ${new Date()}`);
+        res.write(`${chunk} generated at ${new Date()}\n`);
         counter++;
         if (counter === 2) {
             console.log(`stopping sending chunks`);
