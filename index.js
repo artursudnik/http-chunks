@@ -3,14 +3,47 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {
+    res.header('Cache-Control', 'no-store');
+    res.header('Content-Type', 'text/html');
+    res.send(`
+                <a href="/dropBeforeEndCacheable">broken cacheable</a></br>
+                <a href="correctChunksCacheable">correct cacheable</a></br>
+                <a href="/dropBeforeEndNonCacheable">broken non-cacheable</a></br>
+                <a href="correctChunksNonCacheable">correct non-cacheable</a>
+    `)
+});
+
+app.get('/dropBeforeEndCacheable', (req, res) => {
+    handler(true, true, req, res)
+});
+
+app.get('/correctChunksCacheable', (req, res) => {
+    handler(false, true, req, res)
+});
+
+app.get('/dropBeforeEndNonCacheable', (req, res) => {
+    handler(true, false, req, res)
+});
+
+app.get('/correctChunksNonCacheable', (req, res) => {
+    handler(false, false, req, res)
+});
+
+function handler(drop, cacheable, req, res, next) {
     let counter = 0,
         chunk   = `this is some chunk of data`;
 
-    req.socket.setTimeout(1100);
+    if (drop) {
+        req.socket.setTimeout(1100);
+    }
 
     console.log(`received http request, starting sending chunks in response`);
 
     res.header('Content-Type', 'text/plain; charset=utf-8');
+
+    if (cacheable) {
+        res.header('Cache-Control', 'public, max-age=86400');
+    }
 
     let interval = setInterval(() => {
         console.log(`sending another chunk`);
@@ -30,6 +63,6 @@ app.get('/', (req, res) => {
             // res.end();
         }
     }, 1000)
-});
+}
 
 app.listen(3000);
