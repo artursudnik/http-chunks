@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
         counter++;
         if (counter === 2) {
             console.log(`stopping sending chunks`);
-            console.log(`keeping connection opened for a while`);
+            console.log(`waiting 5s to end sending response`);
             setTimeout(() => {
                 // console.log(`closing socket`);
                 // res.socket.destroy();
