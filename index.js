@@ -10,6 +10,8 @@ app.get('/', (req, res) => {
 
     console.log(`received http request, starting sending chunks in response`);
 
+    res.header('Content-Type', 'text/plain; charset=utf-8');
+
     let interval = setInterval(() => {
         console.log(`sending another chunk`);
         res.write(`${chunk} generated at ${new Date()}\n`);
