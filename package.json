@@ -1,6 +1,6 @@
 {
   "name": "http-chunks",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Simple http server to test chunked transfer encoding issues",
   "main": "index.js",
   "author": "artur.sudnik@gmail.com",
