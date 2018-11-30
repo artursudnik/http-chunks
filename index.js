@@ -6,10 +6,10 @@ app.get('/', (req, res) => {
     res.header('Cache-Control', 'no-store');
     res.header('Content-Type', 'text/html');
     res.send(`
-                <a href="/dropBeforeEndCacheable">broken cacheable</a></br>
-                <a href="correctChunksCacheable">correct cacheable</a></br>
-                <a href="/dropBeforeEndNonCacheable">broken non-cacheable</a></br>
-                <a href="correctChunksNonCacheable">correct non-cacheable</a>
+        <a href="/dropBeforeEndCacheable">broken cacheable</a></br>
+        <a href="/correctChunksCacheable">correct cacheable</a></br>
+        <a href="/dropBeforeEndNonCacheable">broken non-cacheable</a></br>
+        <a href="/correctChunksNonCacheable">correct non-cacheable</a>
     `)
 });
 
