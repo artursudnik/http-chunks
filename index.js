@@ -53,15 +53,11 @@ function handler(drop, cacheable, req, res, next) {
             console.log(`stopping sending chunks`);
             console.log(`waiting 5s to end sending response`);
             setTimeout(() => {
-                // console.log(`closing socket`);
-                // res.socket.destroy();
-
                 res.write(`chunk sent just before response end at ${new Date()}`);
                 console.log(`finishing response`);
                 res.end();
             }, 5000);
             clearInterval(interval);
-            // res.end();
         }
     }, 1000)
 }
