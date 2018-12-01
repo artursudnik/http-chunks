@@ -65,4 +65,8 @@ function handler(drop, cacheable, req, res, next) {
     }, 1000)
 }
 
-app.listen(3000);
+const server = app.listen(3000, '0.0.0.0');
+
+server.on('listening', () => {
+    console.log(`server started: ${server.address().address}:${server.address().port} (${server.address().family})`)
+})
