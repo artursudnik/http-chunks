@@ -1,6 +1,9 @@
-const express = require('express');
+const express = require('express'),
+      morgan  = require('morgan');
 
 const app = express();
+
+app.use(morgan('combined'));
 
 app.get('/', (req, res) => {
     res.header('Cache-Control', 'no-store');
