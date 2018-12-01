@@ -1,4 +1,5 @@
 const express = require('express'),
+      moment  = require('moment'),
       morgan  = require('morgan');
 
 const app = express();
@@ -10,7 +11,7 @@ app.use((req, res, next) => {
         console.log(`socket closed${hadError ? ' with error' : ' with no error'}`);
     });
     next();
-})
+});
 
 app.get('/', (req, res) => {
     res.header('Cache-Control', 'no-store');
@@ -67,23 +68,23 @@ function handler(drop, cacheable, req, res, next) {
 
     let interval = setInterval(() => {
         console.log(`sending another chunk`);
-        res.write(`${chunk} generated at ${new Date()}\n`);
+        res.write(`${chunk} generated at ${moment().format('HH:mm:ss.SSS')}\n`);
         counter++;
-        if (counter === 2) {
+        if (counter === 20) {
             console.log(`stopping sending chunks`);
             console.log(`waiting 5s to end sending response`);
             setTimeout(() => {
-                res.write(`chunk sent just before response end at ${new Date()}`);
+                res.write(`chunk sent just before response end at ${moment().format('HH:mm:ss.SSS')}`);
                 console.log(`finishing response`);
                 res.end();
             }, 5000);
             clearInterval(interval);
         }
-    }, 1000)
+    }, 100)
 }
 
 const server = app.listen(3000, '0.0.0.0');
 
 server.on('listening', () => {
     console.log(`server started: ${server.address().address}:${server.address().port} (${server.address().family})`)
-})
+});
