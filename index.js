@@ -5,6 +5,13 @@ const app = express();
 
 app.use(morgan('combined'));
 
+app.use((req, res, next) => {
+    req.socket.on('close', hadError => {
+        console.log(`socket closed${hadError ? ' with error' : ' with no error'}`);
+    });
+    next();
+})
+
 app.get('/', (req, res) => {
     res.header('Cache-Control', 'no-store');
     res.header('Content-Type', 'text/html');
