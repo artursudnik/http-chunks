@@ -24,8 +24,8 @@ app.get('/', (req, res) => {
             </head>
             <body>
                 <a href="/dropBeforeEndCacheable">broken cacheable</a></br>
-                <a href="/correctChunksCacheable">correct cacheable</a></br>
                 <a href="/dropBeforeEndNonCacheable">broken non-cacheable</a></br>
+                <a href="/correctChunksCacheable">correct cacheable</a></br>
                 <a href="/correctChunksNonCacheable">correct non-cacheable</a>
             </body>
         </html>`;
