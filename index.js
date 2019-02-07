@@ -83,7 +83,7 @@ function handler(drop, cacheable, req, res, next) {
     }, 100)
 }
 
-const server = app.listen(3000, '0.0.0.0');
+const server = app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000, '0.0.0.0');
 
 server.on('listening', () => {
     console.log(`server started: ${server.address().address}:${server.address().port} (${server.address().family})`)
