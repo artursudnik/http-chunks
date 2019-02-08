@@ -24,29 +24,29 @@ app.get('/', (req, res) => {
                 <title>Chunked transfer encoding test cases</title>
             </head>
             <body>
-                <a href="/dropBeforeEndCacheable">broken cacheable</a></br>
-                <a href="/dropBeforeEndNonCacheable">broken non-cacheable</a></br>
-                <a href="/correctChunksCacheable">correct cacheable</a></br>
-                <a href="/correctChunksNonCacheable">correct non-cacheable</a>
+                <a href="/cacheable/incomplete">cacheable incomplete</a></br>
+                <a href="/cacheable/complete">cacheable complete</a></br>
+                <a href="/noncacheable/incomplete">non-cacheable incomplete</a></br>
+                <a href="/noncacheable/complete">non-cacheable complete</a></br>
             </body>
         </html>`;
 
     res.send(pageHTML);
 });
 
-app.get('/dropBeforeEndCacheable', (req, res) => {
+app.get('/cacheable/incomplete', (req, res) => {
     handler(true, true, req, res)
 });
 
-app.get('/correctChunksCacheable', (req, res) => {
+app.get('/cacheable/complete', (req, res) => {
     handler(false, true, req, res)
 });
 
-app.get('/dropBeforeEndNonCacheable', (req, res) => {
+app.get('/noncacheable/incomplete', (req, res) => {
     handler(true, false, req, res)
 });
 
-app.get('/correctChunksNonCacheable', (req, res) => {
+app.get('/noncacheable/complete', (req, res) => {
     handler(false, false, req, res)
 });
 
