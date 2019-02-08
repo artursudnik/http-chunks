@@ -64,6 +64,8 @@ function handler(drop, cacheable, req, res, next) {
 
     if (cacheable) {
         res.header('Cache-Control', 'public, max-age=86400');
+    } else {
+        res.header('Cache-Control', 'no-store');
     }
 
     let interval = setInterval(() => {
