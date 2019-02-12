@@ -58,7 +58,9 @@ function handler(drop, cacheable, req, res, next) {
         req.socket.setTimeout(1100);
     }
 
-    console.log(`${moment().format('HH:mm:ss.SSS')} received http request, starting sending chunks in response`);
+    const requestType = `${drop ? 'incomplete' : 'complete'} chunks, ${cacheable ? 'cacheable' : 'non-cacheable'}`;
+
+    console.log(`${moment().format('HH:mm:ss.SSS')} received http request (${requestType}), starting sending chunks in response`);
 
     res.header('Content-Type', 'text/plain; charset=utf-8');
 
