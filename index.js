@@ -92,9 +92,9 @@ server.on('listening', () => {
 });
 
 server.on('connection', (socket) => {
-    console.log(`${moment().format('HH:mm:ss.SSS')} new connection`);
+    console.log(`${moment().format('HH:mm:ss.SSS')} new connection from ${socket.remoteAddress}`);
     socket.on('close', hadError => {
-        console.log(`${moment().format('HH:mm:ss.SSS')} socket closed${hadError ? ' with error' : ' with no error'}`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} connection from ${socket.remoteAddress} closed${hadError ? ' with error' : ' with no error'}`);
     });
 
     socket.setTimeout(0);
