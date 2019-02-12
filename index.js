@@ -71,8 +71,8 @@ function handler(drop, cacheable, req, res, next) {
     }
 
     let interval = setInterval(() => {
-        let chunk   = `this is ${numeral(counter + 1).format('0o')} chunk of data`;
-        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${numeral(counter + 1).format('0o')} chunk`);
+        let chunk   = `this is ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk of data`;
+        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk`);
         res.write(`${chunk} sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
         if (counter === 20) {
