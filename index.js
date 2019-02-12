@@ -70,12 +70,16 @@ function handler(drop, cacheable, req, res, next) {
         counter++;
         if (counter === 20) {
             console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks`);
-            console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk`);
-            setTimeout(() => {
-                console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk`);
-                res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
-                res.end();
-            }, 5000);
+
+            if(!drop) {
+                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk`);
+                setTimeout(() => {
+                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk`);
+                    res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
+                    res.end();
+                }, 5000);
+            }
+
             clearInterval(interval);
         }
     }, 100)
