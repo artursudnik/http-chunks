@@ -8,7 +8,7 @@ app.use(morgan('combined'));
 
 app.use((req, res, next) => {
     req.socket.on('close', hadError => {
-        console.log(`socket closed${hadError ? ' with error' : ' with no error'}`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} socket closed${hadError ? ' with error' : ' with no error'}`);
     });
     next();
 });
@@ -58,7 +58,7 @@ function handler(drop, cacheable, req, res, next) {
         req.socket.setTimeout(1100);
     }
 
-    console.log(`received http request, starting sending chunks in response`);
+    console.log(`${moment().format('HH:mm:ss.SSS')} received http request, starting sending chunks in response`);
 
     res.header('Content-Type', 'text/plain; charset=utf-8');
 
@@ -69,15 +69,15 @@ function handler(drop, cacheable, req, res, next) {
     }
 
     let interval = setInterval(() => {
-        console.log(`sending another chunk`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} sending another chunk`);
         res.write(`${chunk} generated at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
         if (counter === 20) {
-            console.log(`stopping sending chunks`);
-            console.log(`waiting 5s to end sending response`);
+            console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks`);
+            console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s to end sending response`);
             setTimeout(() => {
                 res.write(`chunk sent just before response end at ${moment().format('HH:mm:ss.SSS')}\r\n`);
-                console.log(`finishing response`);
+                console.log(`${moment().format('HH:mm:ss.SSS')} finishing response`);
                 res.end();
             }, 5000);
             clearInterval(interval);
@@ -88,5 +88,5 @@ function handler(drop, cacheable, req, res, next) {
 const server = app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000, '0.0.0.0');
 
 server.on('listening', () => {
-    console.log(`server started: ${server.address().address}:${server.address().port} (${server.address().family})`)
+    console.log(`${moment().format('HH:mm:ss.SSS')} server started: ${server.address().address}:${server.address().port} (${server.address().family})`)
 });
