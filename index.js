@@ -72,16 +72,15 @@ function handler(drop, cacheable, req, res, next) {
 
     let interval = setInterval(() => {
         let chunk   = `this is ${numeral(counter + 1).format('0o')} chunk of data`;
-        console.log(`${moment().format('HH:mm:ss.SSS')} sending another chunk`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${numeral(counter + 1).format('0o')} chunk`);
         res.write(`${chunk} sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
         if (counter === 20) {
             console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks`);
-            console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s to end sending response`);
+            console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk`);
             setTimeout(() => {
-                          ` at 12:26:01.481`
-                res.write(`--------------- LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
-                console.log(`${moment().format('HH:mm:ss.SSS')} finishing response`);
+                console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk`);
+                res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
                 res.end();
             }, 5000);
             clearInterval(interval);
