@@ -1,6 +1,7 @@
 const express = require('express'),
       moment  = require('moment'),
-      morgan  = require('morgan');
+      morgan  = require('morgan'),
+      numeral = require('numeral');
 
 const app = express();
 
@@ -51,8 +52,7 @@ app.get('/noncacheable/complete', (req, res) => {
 });
 
 function handler(drop, cacheable, req, res, next) {
-    let counter = 0,
-        chunk   = `this is some chunk of data`;
+    let counter = 0;
 
     if (drop) {
         req.socket.setTimeout(1100);
@@ -69,14 +69,16 @@ function handler(drop, cacheable, req, res, next) {
     }
 
     let interval = setInterval(() => {
+        let chunk   = `this is ${numeral(counter + 1).format('0o')} chunk of data`;
         console.log(`${moment().format('HH:mm:ss.SSS')} sending another chunk`);
-        res.write(`${chunk} generated at ${moment().format('HH:mm:ss.SSS')}\r\n`);
+        res.write(`${chunk} sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
         if (counter === 20) {
             console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks`);
             console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s to end sending response`);
             setTimeout(() => {
-                res.write(`chunk sent just before response end at ${moment().format('HH:mm:ss.SSS')}\r\n`);
+                          ` at 12:26:01.481`
+                res.write(`--------------- LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
                 console.log(`${moment().format('HH:mm:ss.SSS')} finishing response`);
                 res.end();
             }, 5000);
