@@ -7,13 +7,6 @@ const app = express();
 
 app.use(morgan('combined'));
 
-app.use((req, res, next) => {
-    req.socket.on('close', hadError => {
-        console.log(`${moment().format('HH:mm:ss.SSS')} socket closed${hadError ? ' with error' : ' with no error'}`);
-    });
-    next();
-});
-
 app.get('/', (req, res) => {
     res.header('Cache-Control', 'no-store');
     res.header('Content-Type', 'text/html');
@@ -93,3 +86,17 @@ const server = app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000, 
 server.on('listening', () => {
     console.log(`${moment().format('HH:mm:ss.SSS')} server started: ${server.address().address}:${server.address().port} (${server.address().family})`)
 });
+
+server.on('connection', (socket) => {
+    console.log(`${moment().format('HH:mm:ss.SSS')} new connection`);
+    socket.on('close', hadError => {
+        console.log(`${moment().format('HH:mm:ss.SSS')} socket closed${hadError ? ' with error' : ' with no error'}`);
+    });
+
+    socket.setTimeout(0);
+
+});
+
+
+server.timeout = 0;
+server.keepAliveTimeout = 0;
