@@ -53,7 +53,7 @@ function handler(drop, cacheable, req, res, next) {
 
     const requestType = `${drop ? 'incomplete' : 'complete'} chunks, ${cacheable ? 'cacheable' : 'non-cacheable'}`;
 
-    console.log(`${moment().format('HH:mm:ss.SSS')} received http request (${requestType}), starting sending chunks in response`);
+    console.log(`${moment().format('HH:mm:ss.SSS')} received http request (${req.originalUrl}) (${requestType}), starting sending chunks in response`);
 
     res.header('Content-Type', 'text/plain; charset=utf-8');
 
