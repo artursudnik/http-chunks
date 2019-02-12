@@ -65,7 +65,7 @@ function handler(drop, cacheable, req, res, next) {
     res.header('Content-Type', 'text/plain; charset=utf-8');
 
     if (cacheable) {
-        res.header('Cache-Control', 'public, max-age=86400');
+        res.header('Cache-Control', 'public, max-age=60');
     } else {
         res.header('Cache-Control', 'no-store');
     }
