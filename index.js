@@ -75,9 +75,9 @@ function handler(drop, cacheable, req, res, next) {
             console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
 
             if(!drop) {
-                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk to ${req.socket.remoteAddress}:${socket.remotePort}`);
+                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
                 setTimeout(() => {
-                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}:${socket.remotePort}`);
+                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
                     res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
                     res.end();
                 }, 5000);
