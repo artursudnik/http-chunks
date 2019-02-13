@@ -68,16 +68,16 @@ function handler(drop, cacheable, req, res, next) {
 
     let interval = setInterval(() => {
         let chunk   = `this is ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk of data`;
-        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk to ${req.socket.remoteAddress}`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
         res.write(`${chunk} sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
         if (counter === 20) {
-            console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks to ${req.socket.remoteAddress}`);
+            console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
 
             if(!drop) {
-                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk to ${req.socket.remoteAddress}`);
+                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk to ${req.socket.remoteAddress}:${socket.remotePort}`);
                 setTimeout(() => {
-                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}`);
+                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}:${socket.remotePort}`);
                     res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
                     res.end();
                 }, 5000);
@@ -95,9 +95,9 @@ server.on('listening', () => {
 });
 
 server.on('connection', (socket) => {
-    console.log(`${moment().format('HH:mm:ss.SSS')} new connection from ${socket.remoteAddress}`);
+    console.log(`${moment().format('HH:mm:ss.SSS')} new connection from ${socket.remoteAddress}:${socket.remotePort}`);
     socket.on('close', hadError => {
-        console.log(`${moment().format('HH:mm:ss.SSS')} connection from ${socket.remoteAddress} closed${hadError ? ' with error' : ' with no error'}`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} connection from ${socket.remoteAddress}:${socket.remotePort} closed${hadError ? ' with error' : ' with no error'}`);
     });
 
     socket.setTimeout(0);
