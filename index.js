@@ -49,7 +49,7 @@ function handler(drop, cacheable, req, res, next) {
 
     if (drop) {
         req.socket.setTimeout(1100, () => {
-            console.log(`${moment().format('HH:mm:ss.SSS')} ending response after socket has been closed`);
+            console.log(`${moment().format('HH:mm:ss.SSS')} res.end() called after connection from ${req.socket.remoteAddress}:${req.socket.remotePort} has been closed`);
             res.end();
         });
     }
