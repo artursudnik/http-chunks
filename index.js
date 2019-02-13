@@ -68,16 +68,16 @@ function handler(drop, cacheable, req, res, next) {
 
     let interval = setInterval(() => {
         let chunk   = `this is ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk of data`;
-        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk`);
+        console.log(`${moment().format('HH:mm:ss.SSS')} sending ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk to ${req.socket.remoteAddress}`);
         res.write(`${chunk} sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
         if (counter === 20) {
-            console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks`);
+            console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks to ${req.socket.remoteAddress}`);
 
             if(!drop) {
-                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk`);
+                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk to ${req.socket.remoteAddress}`);
                 setTimeout(() => {
-                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk`);
+                    console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}`);
                     res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
                     res.end();
                 }, 5000);
