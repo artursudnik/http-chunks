@@ -48,7 +48,10 @@ function handler(drop, cacheable, req, res, next) {
     let counter = 0;
 
     if (drop) {
-        req.socket.setTimeout(1100);
+        req.socket.setTimeout(1100, () => {
+            console.log(`${moment().format('HH:mm:ss.SSS')} ending response after socket has been closed`);
+            res.end();
+        });
     }
 
     const requestType = `${drop ? 'incomplete' : 'complete'} chunks, ${cacheable ? 'cacheable' : 'non-cacheable'}`;
