@@ -3,6 +3,11 @@ const express = require('express'),
       morgan  = require('morgan'),
       numeral = require('numeral');
 
+const lastChunkDelay = 8000;
+
+console.log(`starting`);
+console.log(`last chunk delay set to ${lastChunkDelay/1000}s`);
+
 const app = express();
 
 app.use(morgan('combined'));
@@ -75,12 +80,12 @@ function handler(drop, cacheable, req, res, next) {
             console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
 
             if(!drop) {
-                console.log(`${moment().format('HH:mm:ss.SSS')} waiting 5s until sending last chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
+                console.log(`${moment().format('HH:mm:ss.SSS')} waiting ${lastChunkDelay/1000}s until sending last chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
                 setTimeout(() => {
                     console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
                     res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
                     res.end();
-                }, 5000);
+                }, lastChunkDelay);
             }
 
             clearInterval(interval);
