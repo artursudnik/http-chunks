@@ -3,7 +3,9 @@ const express = require('express'),
       morgan  = require('morgan'),
       numeral = require('numeral');
 
-const lastChunkDelay = 8000;
+const lastChunkDelay           = 8000,
+      numberOfChunksNotDelayed = 20,
+      chunksInterval           = 100;
 
 console.log(`starting`);
 console.log(`last chunk delay set to ${lastChunkDelay/1000}s`);
@@ -71,12 +73,14 @@ function handler(drop, cacheable, req, res, next) {
         res.header('Cache-Control', 'no-store');
     }
 
+    console.log(`${moment().format('HH:mm:ss.SSS')} starting sending ${numberOfChunksNotDelayed} chunks in ${chunksInterval}ms interval`);
+
     let interval = setInterval(() => {
         let chunk   = `this is ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk of data`;
         console.log(`${moment().format('HH:mm:ss.SSS')} sending ${counter < 9 ?  ' ' : ''}${numeral(counter + 1).format('0o')} chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
         res.write(`${chunk} sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
         counter++;
-        if (counter === 20) {
+        if (counter === numberOfChunksNotDelayed) {
             console.log(`${moment().format('HH:mm:ss.SSS')} stopping sending chunks to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
 
             if(!drop) {
@@ -91,7 +95,7 @@ function handler(drop, cacheable, req, res, next) {
 
             clearInterval(interval);
         }
-    }, 100)
+    }, chunksInterval)
 }
 
 const server = app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000, '0.0.0.0');
