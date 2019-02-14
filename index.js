@@ -84,6 +84,7 @@ function handler(drop, cacheable, req, res, next) {
                 setTimeout(() => {
                     console.log(`${moment().format('HH:mm:ss.SSS')} sending last chunk to ${req.socket.remoteAddress}:${req.socket.remotePort}`);
                     res.write(`--------this is LAST CHUNK sent at ${moment().format('HH:mm:ss.SSS')}\r\n`);
+                    console.log(`${moment().format('HH:mm:ss.SSS')} ending response with res.end() (zero byte chunk is being sent to ${req.socket.remoteAddress}:${req.socket.remotePort})`);
                     res.end();
                 }, lastChunkDelay);
             }
